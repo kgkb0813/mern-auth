@@ -1,5 +1,6 @@
 import User from '../models/user.model.js';
 import bcryptjs from 'bcryptjs';
+import { errorHandler } from '../utils/error.js';
 // import { errorHandler } from '../utils/error.js';
 // import jwt from 'jsonwebtoken';
 
@@ -13,6 +14,7 @@ export const signup = async (req, res, next) => {
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     next(error.message);
+    // next(errorHandler(300, "somthing went wrong...")); <-------- Custom ErrorNumber/ErrorMessage 생성
   }
 };
 

@@ -12,6 +12,12 @@ app.use(express.json());
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 
+// ErrorHandling Middleware: err, next: from middleware
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || 'Internal Server Error...';
+  return res.status(statusCode).json({ success: false, message, statusCode });
+});
 
 mongoose.connect(process.env.MONGO)
 .then(() => {
@@ -25,10 +31,12 @@ app.listen(8080, () => {
   console.log('Server listening on port 8080...');
 });
 
+
+
 // 검증용 블록: 주소(http://localhost:8080)에서 출력
 {/*
   app.get("/", (req, res) => {
-      res.json({
+    res.json({
           message: "API is working!"
         })
   })
@@ -53,12 +61,3 @@ app.listen(8080, () => {
 
 
 
-// app.use((err, req, res, next) => {
-//   const statusCode = err.statusCode || 500;
-//   const message = err.message || 'Internal Server Error';
-//   return res.status(statusCode).json({
-//     success: false,
-//     message,
-//     statusCode,
-//   });
-// });
