@@ -1,21 +1,15 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import {
-//   signInStart,
-//   signInSuccess,
-//   signInFailure,
-// } from '../redux/user/userSlice';
-// import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 // import OAuth from '../components/OAuth';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({});
-  // const { loading, error } = useSelector((state) => state.user);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -24,9 +18,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // dispatch(signInStart());
-      setError(false);
-      setError(false);
+      dispatch(signInStart());
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {
@@ -35,18 +27,16 @@ export default function SignIn() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      setLoading(false);
       if (data.success === false) {
-        // dispatch(signInFailure(data));\
-        setError(true);
+        dispatch(signInFailure(data));
+        console.log(data.error);
         return;
       }
-      // dispatch(signInSuccess(data));
+      dispatch(signInSuccess(data));
       navigate('/');
     } catch (error) {
-      setError(true);
-      setLoading(false);
-      // dispatch(signInFailure(error));
+      dispatch(signInFailure(error));
+      console.log(error.message)
     }
   };
   
@@ -69,7 +59,7 @@ export default function SignIn() {
           onChange={handleChange}
         />
         <button
-          // disabled={loading}
+          disabled={loading}
           className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
         >
           {loading ? 'Loading...' : 'Sign In'}
