@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      // default:'https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg',
+      default: 'https://t3.ftcdn.net/jpg/07/52/62/60/360_F_752626005_5YK2pGH2aJS6Q4bcBg4PwebdyF062I2P.jpg',
     },
   },
   { timestamps: true }

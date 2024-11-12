@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-// import OAuth from '../components/OAuth';
+import OAuth from '../components/OAuth';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -72,6 +72,9 @@ export default function SignUp() {
         >
           {loading ? 'Loading...' : 'Sign Up'}
         </button>
+      {/* <form onSubmit={handleSubmit} className='flex flex-col gap-4'> */}
+        <OAuth />
+      {/* </form> */}
       </form>
 
       <div className='flex gap-2 mt-5'>
@@ -82,12 +85,8 @@ export default function SignUp() {
       </div>
       
       <p className='text-red-700 mt-5'>{error && 'Something went wrong!'}</p> 
-
-      {/* 
-        <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-          <OAuth />
-        </form>
-      */}
+      
+     
     </div>
   );
 }
