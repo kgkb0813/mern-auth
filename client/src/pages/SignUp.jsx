@@ -72,9 +72,10 @@ export default function SignUp() {
         >
           {loading ? 'Loading...' : 'Sign Up'}
         </button>
-      {/* <form onSubmit={handleSubmit} className='flex flex-col gap-4'> */}
         <OAuth />
-      {/* </form> */}
+      {/* <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+        <OAuth />
+      </form> */}
       </form>
 
       <div className='flex gap-2 mt-5'>
