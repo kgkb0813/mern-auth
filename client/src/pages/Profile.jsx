@@ -18,13 +18,14 @@ export default function Profile() {
 
   const { currentUser, loading, error } = useSelector((state) => state.user); // eslint-disable-line no-unused-vars
 
-  console.log("==currentUser==", currentUser)
   useEffect(() => {
     if (image) {
       handleFileUpload(image);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [image]);
+  console.log("==currentUser==", currentUser)
+  console.log("==image==", image)
 
   const handleFileUpload = async (image) => {
     const storage = getStorage(app);
@@ -102,7 +103,7 @@ export default function Profile() {
     // }
   };
 
-    // console.log("==image==", image)
+    console.log("==formData==", formData)
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
@@ -135,8 +136,8 @@ export default function Profile() {
         */}
 
         <img
-          src={currentUser.profilePicture}
-          // src={formData.profilePicture || currentUser.profilePicture}
+          // src={currentUser.profilePicture}
+          src={formData.profilePicture || currentUser.profilePicture}
           alt='profile'
           className='h-24 w-24 self-center cursor-pointer rounded-full object-cover mt-2'
           onClick={() => fileRef.current.click()}

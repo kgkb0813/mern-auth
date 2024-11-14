@@ -1,14 +1,16 @@
 import express from 'express';
 import dotenv from 'dotenv'
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
-
 
 dotenv.config()
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
+
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 
@@ -43,7 +45,6 @@ app.listen(8080, () => {
 */}
       
 
-// import cookieParser from 'cookie-parser';
 // import path from 'path';
 
 
@@ -57,7 +58,6 @@ app.listen(8080, () => {
 // });
 
 
-// app.use(cookieParser());
 
 
 
