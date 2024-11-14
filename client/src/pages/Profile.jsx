@@ -97,12 +97,13 @@ export default function Profile() {
   };
 
   const handleSignOut = async () => {
-    // try {
-    //   await fetch('/api/auth/signout');
-    //   dispatch(signOut())
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      await fetch('/api/auth/signout');
+      dispatch(signOut())
+      navigate("/sign-in")
+    } catch (error) {
+      console.log(error);
+    }
   };
 
     // console.log("==formData==", formData)
