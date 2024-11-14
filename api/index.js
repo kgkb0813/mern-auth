@@ -2,6 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv'
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import path from 'path';
+
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import cors from 'cors';
@@ -9,6 +11,14 @@ import cors from 'cors';
 dotenv.config()
 
 const app = express();
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/client/dist')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
+
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors())
@@ -20,7 +30,7 @@ app.use(cors())
 // });
 
 // app.use(cors({
-//   origin: ["http://localhost:4000"],
+  //   origin: ["http://localhost:4000"],
 //   credentials: true
 // }));
 // app.use(express.json());
@@ -55,17 +65,11 @@ app.listen(8080, () => {
 */}
       
 
-// import path from 'path';
 
 
-// const __dirname = path.resolve();
 
 
-// app.use(express.static(path.join(__dirname, '/client/dist')));
 
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-// });
 
 
 
