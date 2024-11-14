@@ -4,22 +4,32 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
+import cors from 'cors';
 
 dotenv.config()
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors())
+// app.use((req, res, next) => {
+//   res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+//   res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+//   res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+//   next();
+// });
+
+// app.use(cors({
+//   origin: ["http://localhost:4000"],
+//   credentials: true
+// }));
+// app.use(express.json());
+// app.use(cookieParser());
+
+
 
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
-
-// ErrorHandling Middleware: err, next: from middleware <---- Ref: errorHandler in /api/utils/error.js
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal Server Error...';
-  return res.status(statusCode).json({ success: false, message, statusCode });
-});
 
 mongoose.connect(process.env.MONGO)
 .then(() => {

@@ -1,14 +1,15 @@
 import { useSelector } from 'react-redux';
 import { useRef, useState, useEffect } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { app } from '../firebase';
+import { useNavigate } from 'react-router-dom';
 
+import { app } from '../firebase';
 import { useDispatch } from 'react-redux';
-import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/user/userSlice';
-// import { updateUserStart, updateUserSuccess, updateUserFailure, 
-//          deleteUserStart, deleteUserSuccess, deleteUserFailure,signOut } from '../redux/user/userSlice';
+import { updateUserStart, updateUserSuccess, updateUserFailure, 
+         deleteUserStart, deleteUserSuccess, deleteUserFailure, signOut } from '../redux/user/userSlice';
 
 export default function Profile() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const fileRef = useRef(null);
   const [image, setImage] = useState(undefined);
@@ -78,20 +79,21 @@ export default function Profile() {
   };
 
   const handleDeleteAccount = async () => {
-    // try {
-    //   dispatch(deleteUserStart());
-    //   const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-    //     method: 'DELETE',
-    //   });
-    //   const data = await res.json();
-    //   if (data.success === false) {
-    //     dispatch(deleteUserFailure(data));
-    //     return;
-    //   }
-    //   dispatch(deleteUserSuccess(data));
-    // } catch (error) {
-    //   dispatch(deleteUserFailure(error));
-    // }
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+      navigate("/sign-in");
+    } catch (error) {
+      dispatch(deleteUserFailure(error));
+    }
   };
 
   const handleSignOut = async () => {
@@ -103,7 +105,7 @@ export default function Profile() {
     // }
   };
 
-    console.log("==formData==", formData)
+    // console.log("==formData==", formData)
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
@@ -136,8 +138,7 @@ export default function Profile() {
         */}
 
         <img
-          // src={currentUser.profilePicture}
-          src={formData.profilePicture || currentUser.profilePicture}
+          src={formData?.profilePicture || currentUser?.profilePicture}
           alt='profile'
           className='h-24 w-24 self-center cursor-pointer rounded-full object-cover mt-2'
           onClick={() => fileRef.current.click()}
@@ -160,7 +161,7 @@ export default function Profile() {
         </p> 
 
         <input
-          defaultValue={currentUser.username}
+          defaultValue={currentUser?.username}
           type='text'
           id='username'
           placeholder='Username'
@@ -168,7 +169,7 @@ export default function Profile() {
           onChange={handleChange}
         />
         <input
-          defaultValue={currentUser.email}
+          defaultValue={currentUser?.email}
           type='email'
           id='email'
           placeholder='Email'
@@ -192,10 +193,7 @@ export default function Profile() {
 
       
       <div className='flex justify-between mt-5'>
-        <span
-          onClick={handleDeleteAccount}
-          className='text-red-700 cursor-pointer'
-        >
+        <span onClick={handleDeleteAccount} className='text-red-700 cursor-pointer' >
           Delete Account
         </span>
         <span onClick={handleSignOut} className='text-red-700 cursor-pointer'>
