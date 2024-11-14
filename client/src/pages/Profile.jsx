@@ -4,8 +4,9 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/
 import { app } from '../firebase';
 
 import { useDispatch } from 'react-redux';
-import { updateUserStart, updateUserSuccess, updateUserFailure, 
-         deleteUserStart, deleteUserSuccess, deleteUserFailure,signOut } from '../redux/user/userSlice';
+import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/user/userSlice';
+// import { updateUserStart, updateUserSuccess, updateUserFailure, 
+//          deleteUserStart, deleteUserSuccess, deleteUserFailure,signOut } from '../redux/user/userSlice';
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -24,8 +25,6 @@ export default function Profile() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [image]);
-  console.log("==currentUser==", currentUser)
-  console.log("==image==", image)
 
   const handleFileUpload = async (image) => {
     const storage = getStorage(app);
@@ -56,25 +55,26 @@ export default function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // try {
-    //   dispatch(updateUserStart());
-    //   const res = await fetch(`/api/user/update/${currentUser._id}`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-    //   const data = await res.json();
-    //   if (data.success === false) {
-    //     dispatch(updateUserFailure(data));
-    //     return;
-    //   }
-    //   dispatch(updateUserSuccess(data));
-    //   setUpdateSuccess(true);
-    // } catch (error) {
-    //   dispatch(updateUserFailure(error));
-    // }
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data));
+        return;
+      }
+      dispatch(updateUserSuccess(data));
+      setUpdateSuccess(true);
+    } 
+    catch (error) {
+      dispatch(updateUserFailure(error));
+    }
   };
 
   const handleDeleteAccount = async () => {
@@ -114,8 +114,8 @@ export default function Profile() {
           ref={fileRef}
           hidden
           accept='image/*'
-          // onChange={(e) => setImage(e.target.files[0])}
           onChange={(e) => {
+            handleChange
             const file = e.target.files[0];
             if (file && file.type.startsWith("image/")) {
               setImage(file);
@@ -185,12 +185,8 @@ export default function Profile() {
         />
 
         <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
-          Update
-        </button>
-
-        {/* <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>
           {loading ? 'Loading...' : 'Update'}
-        </button> */}
+        </button>
 
       </form>
 
@@ -207,11 +203,8 @@ export default function Profile() {
         </span>
       </div> 
      
-
-      {/* <p className='text-red-700 mt-5'>{error && 'Something went wrong!'}</p>
-      <p className='text-green-700 mt-5'>
-        {updateSuccess && 'User is updated successfully!'}
-      </p> */}
+      <p className='text-red-700 mt-5'>{ error && 'Something went wrong...' }</p>
+      <p className='text-green-700 mt-5'>{ updateSuccess && 'User is updated successfully...' }</p>
 
 
     </div>
