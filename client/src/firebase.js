@@ -5,15 +5,13 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  // apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  apiKey: "AIzaSyCPggPUaImCMT4EU1SIxQFFjyVU-j19IYc",
-  authDomain: "mern-auth-sahand-d6b98.firebaseapp.com",
-  projectId: "mern-auth-sahand-d6b98",
-  storageBucket: "mern-auth-sahand-d6b98.firebasestorage.app",
-  messagingSenderId: "852272043696",
-  appId: "1:852272043696:web:4f6e637b2d8031467e4d75"
+  apiKey: "AIzaSyABlj8a7Uq3IDSaO8LDdVAmLt4SLcSe4S0",
+  authDomain: "mern-auth-3b8b8.firebaseapp.com",
+  projectId: "mern-auth-3b8b8",
+  storageBucket: "mern-auth-3b8b8.firebasestorage.app",
+  messagingSenderId: "184790906841",
+  appId: "1:184790906841:web:5b316b9d1d2893a7818bc8"
 };
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-
